@@ -16,7 +16,7 @@ return new class extends Migration
             $table->unsignedBigInteger('user_id')->index(); //indexing for foreign key
             $table->string('pembeli', 50);
             $table->string('penjualan_kode', 20)->unique(); //unique kode penjualan
-            $table->date('penjualan_tanggal');
+            $table->datetime('penjualan_tanggal');
             $table->timestamps();
 
             // assign foreign key
