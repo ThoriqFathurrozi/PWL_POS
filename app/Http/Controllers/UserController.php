@@ -23,18 +23,26 @@ class UserController extends Controller
         // ];
         // UserModel::where('username', 'customer-1')->update($data); //update data in m_user table
 
-        $data = [
-            'level_id' => 2,
-            'username' => 'manager_tiga',
-            'nama' => 'Manager 3',
-            'password' => Hash::make('12345'),
-        ];
+        // $data = [
+        //     'level_id' => 2,
+        //     'username' => 'manager_tiga',
+        //     'nama' => 'Manager 3',
+        //     'password' => Hash::make('12345'),
+        // ];
 
-        UserModel::create($data); //add data to m_user table
+        // UserModel::create($data); //add data to m_user table
 
 
         //access data from m_user table
-        $user = UserModel::all(); //get all data from m_user table
+        // $user = UserModel::all(); //get all data from m_user table
+
+        // $user = UserModel::where('level_id', 1)->first(); 
+        // $user = UserModel::findOr(1, ['username', 'nama'], function () {
+        //     abort(404);
+        // });
+        $user = UserModel::findOr(20, ['username', 'nama'], function () {
+            abort(404);
+        });
         return view('user', ['data' => $user]);
     }
 }
