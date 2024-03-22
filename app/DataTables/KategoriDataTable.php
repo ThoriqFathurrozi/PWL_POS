@@ -4,6 +4,7 @@ namespace App\DataTables;
 
 use App\Models\Kategori;
 use Illuminate\Database\Eloquent\Builder as QueryBuilder;
+use PhpOffice\PhpSpreadsheet\Worksheet\AutoFit;
 use Yajra\DataTables\EloquentDataTable;
 use Yajra\DataTables\Html\Builder as HtmlBuilder;
 use Yajra\DataTables\Html\Button;
@@ -22,8 +23,15 @@ class KategoriDataTable extends DataTable
     public function dataTable(QueryBuilder $query): EloquentDataTable
     {
         return (new EloquentDataTable($query))
-            ->addColumn('action', 'kategori.action')
-            ->setRowId('id');
+            ->setRowId('id')
+            ->addColumn('action', function ($row) {
+                $linkEdit = "kategori/edit/" . $row->kategori_id;
+                $linkDelete = "kategori/delete/" . $row->kategori_id;
+                $btnEdit = '<a href="' . $linkEdit . '" class="btn btn-primary btn-sm">Edit</a>';
+                $btnDelete = '<a href="' . $linkDelete . '" class="btn btn-danger btn-sm">Delete</a>';
+                $container = "<div class='d-flex justify-content-evenly'>" . $btnEdit . $btnDelete . "</div>";
+                return $container;
+            });
     }
 
     /**
@@ -62,16 +70,15 @@ class KategoriDataTable extends DataTable
     public function getColumns(): array
     {
         return [
-            Column::computed('action')
-                ->exportable(false)
-                ->printable(false)
-                ->width(60)
-                ->addClass('text-center'),
             Column::make('kategori_id'),
             Column::make('kategori_kode'),
             Column::make('kategori_nama'),
             Column::make('created_at'),
             Column::make('updated_at'),
+            Column::computed('action')
+                ->exportable(false)
+                ->printable(false)
+                ->addClass('text-center'),
         ];
     }
 
