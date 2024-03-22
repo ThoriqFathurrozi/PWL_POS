@@ -5,13 +5,13 @@ namespace App\Http\Controllers;
 use App\DataTables\KategoriDataTable;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use App\Models\Kategori;
 
 class KategoriController extends Controller
 {
     //
     public function index(KategoriDataTable $dataTable)
     {
-        return $dataTable->render('kategori.index');
 
         // $data =
         //     [
@@ -31,5 +31,22 @@ class KategoriController extends Controller
 
         // $data = DB::table('m_kategori')->get();
         // return view('kategori', ['data' => $data]);
+
+        return $dataTable->render('kategori.index');
+    }
+
+    public function create()
+    {
+        return view('kategori.create');
+    }
+
+    public function store(Request $request)
+    {
+        Kategori::create([
+            'kategori_kode' => $request->kodeKategori,
+            'kategori_nama' => $request->namaKategori,
+        ]);
+
+        return redirect('/kategori');
     }
 }
