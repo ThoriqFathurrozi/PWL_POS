@@ -42,9 +42,14 @@ class KategoriController extends Controller
 
     public function store(Request $request)
     {
-        Kategori::create([
-            'kategori_kode' => $request->kodeKategori,
-            'kategori_nama' => $request->namaKategori,
+        // Kategori::create([
+        //     'kategori_kode' => $request->kodeKategori,
+        //     'kategori_nama' => $request->namaKategori,
+        // ]);
+
+        $validated = $request->validate([
+            'kategori_kode' => 'bail|required|max:3|unique:m_kategori,kategori_kode',
+            'kategori_nama' => 'required',
         ]);
 
         return redirect('/kategori');
