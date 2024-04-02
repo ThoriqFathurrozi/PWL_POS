@@ -40,3 +40,11 @@ Route::get('/kategori/edit/{id}', [KategoriController::class, 'edit']);
 Route::put('/kategori/update/{id}', [KategoriController::class, 'update']);
 
 Route::get('/kategori/delete/{id}', [KategoriController::class, 'delete']);
+
+Route::get('/forms/m_user', function () {
+    return view('forms.m_user');
+});
+
+Route::get('/forms/m_level', function () {
+    return view('forms.m_level');
+});
