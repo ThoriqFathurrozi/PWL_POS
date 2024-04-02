@@ -4,6 +4,15 @@
 <h1>Dashboard</h1>
 @stop
 @section('content')
+@if($errors->any())
+<div class="alert alert-danger">
+    <ul>
+        @foreach($errors->all() as $error)
+        <li>{{ $error }}</li>
+        @endforeach
+    </ul>
+</div>
+@endif
 <!-- general form elements disabled -->
 <div class="card card-warning">
     <div class="card-header">
@@ -11,12 +20,13 @@
     </div>
     <!-- /.card-header -->
     <div class="card-body">
-        <form>
+        <form action="/user/tambah_simpan" method="post">
+            {{csrf_field()}}
             <div class="row">
                 <div class="col-sm-6">
                     <div class="form-group">
                         <label>Level</label>
-                        <select class="form-control">
+                        <select class="form-control" name="level_id">
                             <option>Administrator</option>
                             <option>Manager</option>
                             <option>Staff</option>
@@ -26,15 +36,15 @@
                     <!-- text input -->
                     <div class="form-group">
                         <label>Nama</label>
-                        <input type="text" class="form-control" placeholder="Enter ...">
+                        <input type="text" class="form-control" placeholder="Enter ..." name="nama">
                     </div>
                     <div class="form-group">
                         <label>Username</label>
-                        <input type="text" class="form-control" placeholder="Enter ...">
+                        <input type="text" class="form-control" placeholder="Enter ..." name="username">
                     </div>
                     <div class="form-group">
                         <label>Password</label>
-                        <input type="password" class="form-control" placeholder="Enter ...">
+                        <input type="password" class="form-control" placeholder="Enter ..." name="password">
                     </div>
                     <button class="btn btn-info" type="submit">Submit</button>
                 </div>

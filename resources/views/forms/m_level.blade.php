@@ -4,14 +4,26 @@
 <h1>Dashboard</h1>
 @stop
 @section('content')
+@if($errors->any())
+<div class="alert alert-danger">
+    <ul>
+        @foreach($errors->all() as $error)
+        <li>{{ $error }}</li>
+        @endforeach
+    </ul>
+</div>
+@endif
 <!-- general form elements disabled -->
+
 <div class="card card-warning">
     <div class="card-header">
         <h3 class="card-title">m_level</h3>
     </div>
     <!-- /.card-header -->
     <div class="card-body">
-        <form>
+        <form action="/level/tambah_simpan" method="post">
+            {{csrf_field()}}
+
             <div class="row">
                 <div class="col-sm-6">
 

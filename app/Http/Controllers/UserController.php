@@ -6,6 +6,7 @@ use App\Models\UserModel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Monolog\Level;
+use Illuminate\Http\RedirectResponse;
 
 class UserController extends Controller
 {
@@ -112,26 +113,35 @@ class UserController extends Controller
         // dd($user->wasChanged(['nama', 'username'])); //true
 
         // $user = UserModel::all();
-        // return view('user', ['data' => $user]);
 
         $user = UserModel::with('level')->get();
-        dd($user);
+        return view('user', ['data' => $user]);
+        // dd($user);
     }
 
     public function tambah()
     {
-        return view('user_tambah');
+        // return view('user_tambah');
+        return view('forms.m_user');
     }
 
 
-    public function tambah_simpan(Request $request)
+    public function tambah_simpan(Request $request): RedirectResponse
     {
+        $validated = request()->validate([
+            'username' => 'required',
+            'nama' => 'required',
+            'password' => 'required',
+            'level_id' => 'required',
+        ]);
+
         UserModel::create([
             'username' => $request->username,
             'nama' => $request->nama,
             'password' => Hash::make($request->password),
             'level_id' => $request->level_id,
         ]);
+
         return redirect('/user');
     }
 

@@ -48,3 +48,7 @@ Route::get('/forms/m_user', function () {
 Route::get('/forms/m_level', function () {
     return view('forms.m_level');
 });
+
+
+Route::get('/level/tambah', [LevelController::class, 'tambah']);
+Route::post('/level/tambah_simpan', [LevelController::class, 'tambah_simpan']);
