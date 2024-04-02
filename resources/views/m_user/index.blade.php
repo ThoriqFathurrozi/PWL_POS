@@ -16,7 +16,7 @@
     <p>{{ $message }}</p>
 </div>
 @endif
-<table class="table table-bordered">
+<table class="table table-bordered table-warning table-striped ßborder-primary">
     <tr>
         <th width="20px" class="text-center">User id</th>
         <th width="150px" class="text-center">Level id</th>
@@ -28,8 +28,7 @@
     @foreach ($useri as $m_user)
     <tr>
         <td>{{ $m_user->user_id }}</td>
-        <td></td>
-        <!-- <td>{{ $m_user->level_id }}</td> -->
+        <td>{{ $m_user->level_id }}</td>
         <td>{{ $m_user->username }}</td>
         <td>{{ $m_user->nama }}</td>
         <td>{{ $m_user->password }}</td>
