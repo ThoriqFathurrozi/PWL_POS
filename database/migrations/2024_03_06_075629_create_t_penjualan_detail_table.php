@@ -21,6 +21,7 @@ return new class extends Migration
             //assign foreign key
             $table->foreign('penjualan_id')->references('penjualan_id')->on('t_penjualan');
             $table->foreign('barang_id')->references('barang_id')->on('m_barang');
+            $table->foreign('penjualan_id')->references('penjualan_id')->on('t_penjualan')->onDelete('cascade');
         });
     }
 
