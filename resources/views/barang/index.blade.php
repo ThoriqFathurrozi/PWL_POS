@@ -71,7 +71,7 @@
             }, {
                 data: "kategori.kategori_nama",
                 className: "text-center",
-                orderable: true, // orderable: true, jika ingin kolom ini bisa diurutkan
+                orderable: false, // orderable: true, jika ingin kolom ini bisa diurutkan
                 searchable: true // searchable: true, jika ingin kolom ini bisa dicari
             }, {
                 data: "barang_kode",

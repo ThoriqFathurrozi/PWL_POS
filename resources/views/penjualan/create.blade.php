@@ -10,8 +10,8 @@
         <div class="card-body">
             @csrf
             <div class="form-group row">
-                <label class="col-1 control-label col-form-label">User</label>
-                <div class="col-11">
+                <label class="col-2 control-label col-form-label">User</label>
+                <div class="col-10">
                     <select class="form-control" id="user_id" name="user_id" required>
                         <option value="">- Pilih User -</option>
                         @foreach($user as $item)
@@ -24,14 +24,14 @@
                 </div>
             </div>
             <div class="form-group row">
-                <label class="col-1 control-label col-form-label">Penjualan Kode</label>
-                <div class="col-11">
+                <label class="col-2 control-label col-form-label">Penjualan Kode</label>
+                <div class="col-10">
                     <input type="text" class="form-control" id="penjualan_kode" name="penjualan_kode" value="{{ $penjualan_kode }}" required readonly>
                 </div>
             </div>
             <div class="form-group row">
-                <label class="col-1 control-label col-form-label">Pembeli</label>
-                <div class="col-11">
+                <label class="col-2 control-label col-form-label">Pembeli</label>
+                <div class="col-10">
                     <input type="text" class="form-control" id="pembeli" name="pembeli" value="{{ old('pembeli') }}" required>
                     @error('pembeli')
                     <small class="form-text text-danger">{{ $message }}</small>
@@ -39,7 +39,7 @@
                 </div>
             </div>
             <div class="form-group row">
-                <label class="col-1 control-label col-form-label">
+                <label class="col-2 control-label col-form-label">
                     Total
                 </label>
                 <div class="col-3">
@@ -58,9 +58,11 @@
                     Tambah barang
                 </button>
 
+
+
                 <!-- Modal -->
-                <div class="modal fade" id="tambahBarang" tabindex="-1" aria-labelledby="tambahBarangLabel" aria-hidden="true">
-                    <div class="modal-dialog modal-dialog-scrollable modal-lg">
+                <div class="modal fade" id="tambahBarang" aria-labelledby="tambahBarangLabel" aria-hidden="true" tabindex="-1" data-bs-backdrop="static">
+                    <div class="modal-dialog modal-xl">
                         <div class="modal-content">
                             <div class="modal-header">
                                 <h5 class="modal-title" id="tambahBarangLabel">Daftar barang yang tersedia</h5>
@@ -69,7 +71,7 @@
                                 </button>
                             </div>
                             <div class="modal-body">
-                                <table class="table table-bordered table-striped table-hover table-sm">
+                                <table class="table table-bordered table-striped table-hover ">
                                     <thead>
                                         <tr>
                                             <th class="text-center">No</th>
@@ -77,6 +79,7 @@
                                             <th class="text-center">Kode Barang</th>
                                             <th class="text-center">Nama Barang</th>
                                             <th class="text-center">Stok</th>
+                                            <!-- <th class="text-center">Qty</th> -->
                                             <th class="text-center">Harga</th>
                                             <th class="text-center">Aksi</th>
                                         </tr>
@@ -90,10 +93,12 @@
                                             <td class="text-center">{{ $dt->barang_kode }}</td>
                                             <td class="text-center">{{ $dt->barang_nama }}</td>
                                             <td class="text-center">{{ $dt->stok->stok_jumlah }}</td>
+                                            <!-- <td class="text-center" style="width: 100px;"> <input type="number" id="Qty-{{$idx}}" name="jumlahBaru" class="form-control" value="1" min="1" max="${stok}" required></td> -->
                                             <td class="text-center">{{ $dt->harga_jual }}</td>
                                             <td class="text-center">
                                                 <!-- <button type="button" data-toggle="modal" data-target="#stokModal{{$dt->barang_id}}" class="btn btn-primary">Pilih</button> -->
-                                                <div class="btn btn-primary" onclick="tambahKeranjang('{{ $dt->barang_id }}', '{{ $dt->barang_nama }}', '{{ $dt->harga_jual }}', 1, '{{ $dt->stok->stok_jumlah }}')">Pilih</div>
+                                                <!-- <div class="btn btn-primary " id="pilih-qty" onclick="document.querySelector('#Qty-{{$idx}}').value <= '{{ $dt->stok->stok_jumlah }}' && tambahKeranjang('{{ $dt->barang_id }}', '{{ $dt->barang_nama }}', '{{ $dt->harga_jual }}', document.querySelector('#Qty-{{$idx}}').value, '{{ $dt->stok->stok_jumlah }}');">Pilih</div> -->
+                                                <div class="btn btn-primary " id="pilih-qty" onclick=" tambahKeranjang('{{ $dt->barang_id }}', '{{ $dt->barang_nama }}', '{{ $dt->harga_jual }}', 1, '{{ $dt->stok->stok_jumlah }}');">Pilih</div>
                                             </td>
                                         </tr>
                                         @endforeach
@@ -101,6 +106,7 @@
                                 </table>
                             </div>
                             <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                                 <button type="button" class="btn btn-primary" data-dismiss="modal">Simpan</button>
                             </div>
                         </div>
@@ -129,8 +135,8 @@
     <div class="card mx-5">
         <div class="card-body">
             <div class="form-group row">
-                <label class="col-1 control-label col-form-label"></label>
-                <div class="col-11">
+                <label class="col-2 control-label col-form-label"></label>
+                <div class="col-10">
                     <button type="submit" class="btn btn-primary">Simpan Transaksi</button>
                     <a class="btn btn-default ml-1" href="{{ url('penjualan') }}">Kembali</a>
                 </div>
@@ -143,6 +149,10 @@
 @endpush
 @push('js')
 <script>
+    const pilihqty = document.querySelector('#pilih-qty');
+
+
+
     let tableBarang = document.getElementById("table_barang");
     let items = [];
 
@@ -152,15 +162,14 @@
             <td class="text-center">${barangNama}</td>
             <td class="text-center">${harga}</td>
             <td class="text-center">
-                <span>${jumlah}</span> 
+            <input type="number" id="jumlah" name="jumlah[]" value="${jumlah}">
                 <i class="fa-solid fa-plus-minus mx-2" style="color: #B197FC; cursor: pointer;" data-toggle="modal" data-target="#stokModal${barangId}"></i>
             </td>
             <td class="text-center">
-                <button class="btn btn-danger" onclick="hapusBarang(${barangId})">Hapus</button>
+                <button class="btn btn-danger" onclick="hapusBarang(${barangId},event)">Hapus</button>
             </td>
             <input type="hidden" id="barang_id" name="barang_id[]" value="${barangId}">
             <input type="hidden" id="harga" name="harga[]" value="${harga}">
-            <input type="hidden" id="jumlah" name="jumlah[]" value="${jumlah}">
 
             <!-- modal -->
             <div class="modal" tabindex="-1" id="stokModal${barangId}">
@@ -209,7 +218,8 @@
         updateTotal();
     }
 
-    function hapusBarang(barangId) {
+    function hapusBarang(barangId, e) {
+        e.preventDefault()
         let index = items.indexOf(barangId);
         items.splice(index, 1);
 
