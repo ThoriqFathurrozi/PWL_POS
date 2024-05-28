@@ -98,7 +98,7 @@
                                             <td class="text-center">
                                                 <!-- <button type="button" data-toggle="modal" data-target="#stokModal{{$dt->barang_id}}" class="btn btn-primary">Pilih</button> -->
                                                 <!-- <div class="btn btn-primary " id="pilih-qty" onclick="document.querySelector('#Qty-{{$idx}}').value <= '{{ $dt->stok->stok_jumlah }}' && tambahKeranjang('{{ $dt->barang_id }}', '{{ $dt->barang_nama }}', '{{ $dt->harga_jual }}', document.querySelector('#Qty-{{$idx}}').value, '{{ $dt->stok->stok_jumlah }}');">Pilih</div> -->
-                                                <div class="btn btn-primary " id="pilih-qty" onclick=" tambahKeranjang('{{ $dt->barang_id }}', '{{ $dt->barang_nama }}', '{{ $dt->harga_jual }}', 1, '{{ $dt->stok->stok_jumlah }}');">Pilih</div>
+                                                <div class="btn btn-primary " id="pilih-qty" onclick=" tambahKeranjang('{{ $dt->barang_id }}', '{{ $dt->barang_nama }}', '{{ $dt->harga_jual }}', 1, '{{ $dt->stok->stok_jumlah }}','{{asset($dt->image)}}');">Pilih</div>
                                             </td>
                                         </tr>
                                         @endforeach
@@ -122,6 +122,7 @@
                         <th class="text-center">No</th>
                         <th class="text-center">Nama Barang</th>
                         <th class="text-center">Harga</th>
+                        <th class="text-center">Gambar</th>
                         <th class="text-center">Jumlah</th>
                         <th class="text-center">Aksi</th>
                     </tr>
@@ -156,11 +157,12 @@
     let tableBarang = document.getElementById("table_barang");
     let items = [];
 
-    function templateBaris(barangId, barangNama, harga, jumlah, stok) {
+    function templateBaris(barangId, barangNama, harga, jumlah, stok, image) {
         return `
             <td class="text-center">${tableBarang.rows.length + 1}</td>
             <td class="text-center">${barangNama}</td>
             <td class="text-center">${harga}</td>
+            <td><img src="${image}" alt="${barangNama}" width="100"> </td>
             <td class="text-center">
             <input type="number" id="jumlah" name="jumlah[]" value="${jumlah}">
                 <i class="fa-solid fa-plus-minus mx-2" style="color: #B197FC; cursor: pointer;" data-toggle="modal" data-target="#stokModal${barangId}"></i>
@@ -195,7 +197,7 @@
         `;
     }
 
-    function tambahKeranjang(barangId, barangNama, harga, jumlah, stok) {
+    function tambahKeranjang(barangId, barangNama, harga, jumlah, stok, image) {
         if (items.includes(barangId)) {
             let inputJumlah = tableBarang.querySelectorAll("input[name='jumlah[]']");
             let index = items.indexOf(barangId);
@@ -212,7 +214,7 @@
         items.push(barangId);
 
         let barisBaru = document.createElement("tr");
-        barisBaru.innerHTML = templateBaris(barangId, barangNama, harga, jumlah, stok);
+        barisBaru.innerHTML = templateBaris(barangId, barangNama, harga, jumlah, stok, image);
 
         tableBarang.appendChild(barisBaru);
         updateTotal();

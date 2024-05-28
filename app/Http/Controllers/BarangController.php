@@ -145,7 +145,8 @@ class BarangController extends Controller
             'barang_nama' => 'required|string|max:100',
             'harga_beli' => 'required|integer',
             'harga_jual' => 'required|integer',
-            'kategori_id' => 'required|integer'
+            'kategori_id' => 'required|integer',
+            'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048'
         ]);
 
         BarangModel::find($id)->update([
@@ -153,8 +154,10 @@ class BarangController extends Controller
             'barang_nama' => $request->barang_nama,
             'harga_beli' => $request->harga_beli,
             'harga_jual' => $request->harga_jual,
+            'image' => $request->image->hashName(),
             'kategori_id' => $request->kategori_id
         ]);
+        $request->image->store('posts');
 
         return redirect('/barang')->with('success', 'Data barang berhasil diubah');
     }
