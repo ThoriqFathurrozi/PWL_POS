@@ -32,7 +32,8 @@ Route::get('/', [WelcomeController::class, 'index']);
 Route::get('/file-upload', [FileUploadController::class, 'fileUpload']);
 Route::post('/file-upload', [FileUploadController::class, 'prosesFileUpload']);
 
-
+Route::get('/file-upload-custom-name', [FileUploadController::class, 'fileUploadCustomNama']);
+Route::post('/file-upload-custom-name', [FileUploadController::class, 'prosesFileUploadCustomNama']);
 
 
 

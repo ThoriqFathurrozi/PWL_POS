@@ -47,4 +47,27 @@ class FileUploadController extends Controller
         // return "Proses upload berhasil, file berada di: $path";
         // echo $request->berkas->getClientOriginalName() . "lolos validasi";
     }
+
+    public function fileUploadCustomNama()
+    {
+        return view('file-upload-custom-nama');
+    }
+
+    public function prosesFileUploadCustomNama()
+    {
+        request()->validate([
+            'namaBerkas' => 'required|max:255',
+            'berkas' => 'required|file|image|max:500'
+        ]);
+
+        $file = request()->file('berkas');
+
+        $ext = $file->getClientOriginalExtension();
+        $newName = request()->namaBerkas . "." . $ext;
+        $path = $file->storeAs('uploads', $newName);
+
+        echo "Gambar berhasil di upload ke <a href='storage/$path'>$newName</a>";
+        echo "<br><br>";
+        echo "<img width=500 src='storage/$path'/>";
+    }
 }
